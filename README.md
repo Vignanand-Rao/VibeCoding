@@ -1,6 +1,6 @@
 # CareerFit E-Commerce Multi-Filter Sidebar Application
 
-A high-performance, modern dark-themed e-commerce product browsing application featuring real-time multi-criteria filtering and server-side sorting. Built from scratch with a **Python FastAPI** backend and a **React 18 + Vite + TypeScript** frontend styled with **Tailwind CSS**.
+A high-performance, modern dark-themed e-commerce product browsing application featuring real-time multi-criteria filtering, server-side sorting, Amazon/Flipkart-style product details, user authentication, and shopping cart checkout. Built from scratch with a **Python FastAPI** backend and a **React 18 + Vite + TypeScript** frontend styled with **Tailwind CSS**.
 
 ---
 
@@ -12,9 +12,10 @@ The interface utilizes the signature **CareerFit** dark aesthetic:
 | :--- | :--- | :--- |
 | **Jet Black** | `#0A0A0A` | Deep dark backgrounds, layout canvas, and high contrast surfaces |
 | **Cerulean Blue** | `#007BA7` | Active filter pills, category checkboxes, slider tracks, brand badges |
-| **Neon Rose** | `#FF2E63` | Star ratings, highlight badges, reset actions, subtle glow effects |
+| **Neon Rose** | `#FF2E63` | Star ratings, highlight badges, reset actions, and checkout CTA buttons |
 
-- **Dark surfaces**: `#121212` and `#181818` with subtle borders (`#222222`).
+- **Dark surfaces**: `#121212`, `#141414`, and `#181818` with subtle borders (`#222222`).
+- **Currency**: **Indian Rupees (₹)** formatted with Indian locale formatting (`₹{price.toLocaleString('en-IN')}`).
 - **Typography**: Clean, crisp typography using the `Inter` font family.
 - **Responsiveness**: Desktop sticky sidebar with mobile slide-out drawer panel.
 
@@ -23,22 +24,39 @@ The interface utilizes the signature **CareerFit** dark aesthetic:
 ## 🚀 Key Features
 
 ### 1. Left Sidebar – Multi-Criteria Filters
-- **Category Checkboxes**: Multi-select support for `Electronics`, `Apparel`, and `Footwear` using **OR logic** within categories.
-- **Dual-Handle Price Range Slider**: Independently adjustable minimum and maximum price handles with boundary enforcement, real-time numerical badges, and debounced server updates.
+- **Category Checkboxes**: Multi-select support for `Electronics` (52 items), `Apparel` (54 items), and `Footwear` (53 items) using **OR logic** within categories.
+- **Colour Filter**: Multi-select colour filter with visual color swatches (`Black`, `White`, `Blue`, `Red`, `Grey`, `Green`, `Brown`) combined using **OR logic**.
+- **Price Range Presets & Dual-Handle Slider**:
+  - Quick Select presets: `Below ₹500`, `₹500 – ₹1,000`, `₹1,000 – ₹2,500`, `₹2,500 – ₹5,000`, `₹5,000 – ₹10,000`, `Above ₹10,000`.
+  - Synchronized dual-handle continuous range slider with independent min/max handles and debounced requests.
 - **Minimum Star Rating Selection**: Interactive radio buttons (1 to 5 stars, plus "All Ratings") filtering products with rating $\ge$ chosen threshold.
 - **Sticky Desktop & Collapsible Mobile Panel**: Stays pinned while scrolling on large screens and collapses into a slide-over drawer on mobile devices with an active filter badge.
 - **Visible Reset Filters**: One-click restoration of all filter controls to their default state.
 
-### 2. Right Section – Product Grid & Sort Controls
-- **Product Cards**: High-definition imagery, category badge, product title, description snippet, prominent price, and star rating with review counts.
-- **Result Counter**: Real-time count of matching products (e.g., *"Showing 16 of 24 items"*).
-- **Active Filter Chips**: Interactive tags showing applied filters with quick-remove buttons.
-- **Sort By Dropdown**:
-  - `Default Order` (preserves catalog base order)
-  - `Price: Low to High` (ascending price)
-  - `Top Rated First` (descending rating)
-- **Empty State**: Displays the exact message `"No items match your criteria."` alongside a visible **Reset Filters** button when no products meet the filter criteria.
-- **Instant Updates**: Grid refreshes automatically on filter changes without needing an "Apply Filters" button.
+### 2. Amazon / Flipkart-Style Product Detail View
+- Clicking any item card opens a detailed product inspection modal:
+  - High-resolution product image and discount badge (e.g., `20% OFF`).
+  - Category, verified authentic stock status, and color variant indicator.
+  - Full title, customer star ratings, and review count.
+  - Pricing breakdown in INR (`₹`) with simulated MRP strikethrough.
+  - Trust perks: Free Delivery, 7-Day Replacement Guarantee, 1-Year Official Warranty.
+  - Detailed product overview and key feature specifications.
+  - Quantity picker (`-` `qty` `+`).
+  - "Add to Cart" and "Buy Now" instant action buttons.
+
+### 3. Shopping Cart Drawer & Checkout
+- Slide-over cart drawer from the right side of the screen.
+- Real-time line item calculations, quantity adjustment (`+` / `-`), and removal.
+- Free delivery on orders ₹499 and above.
+- Promo coupon support (try code `"CAREERFIT10"` for 10% discount).
+- Checkout order placement via `POST /api/cart/checkout` returning an official `CF-ORD-XXXX` order reference number with order confirmation.
+- Persisted cart state in `localStorage`.
+
+### 4. User Authentication (Login & Signup)
+- Authentication modal with "Sign In" and "Create Account" tabs.
+- 1-click **Demo Login** (`demo@careerfit.com` / `password123`).
+- Full-stack registration and login backed by FastAPI endpoints (`/api/auth/signup`, `/api/auth/login`).
+- User profile header dropdown with Sign Out action and session persistence.
 
 ---
 
@@ -47,23 +65,28 @@ The interface utilizes the signature **CareerFit** dark aesthetic:
 All filtering, validation, and sorting business logic executes **strictly on the backend**.
 
 ```
-┌─────────────────────────────────┐           HTTP GET /api/products           ┌───────────────────────────────────┐
-│     React + Vite Frontend       │ ─────────────────────────────────────────> │       Python FastAPI Backend      │
-│  - Category checkboxes (state)  │ <───────────────────────────────────────── │  1. Load products (immutable)     │
-│  - Dual range slider (debounced)│           JSON Response {products,         │  2. Category Filter (OR logic)    │
-│  - Star rating radio buttons    │                          total, ...}       │  3. Price Range (inclusive min/max│
-│  - Sort By dropdown             │                                            │  4. Star Rating (>= min_rating)   │
-└─────────────────────────────────┘                                            │  5. Combine with AND logic        │
-                                                                               │  6. Sort (Price asc / Rating desc)│
-                                                                               └───────────────────────────────────┘
+┌─────────────────────────────────┐        HTTP GET /api/products?        ┌───────────────────────────────────┐
+│     React + Vite Frontend       │ ────────────────────────────────────> │       Python FastAPI Backend      │
+│  - Categories (multi-select)    │ <──────────────────────────────────── │  1. Load products (immutable)     │
+│  - Colours (multi-select)       │        JSON Response {products,       │  2. Category Filter (OR logic)    │
+│  - Dual slider / Presets (INR)  │                       total, ...}     │  3. Colour Filter (OR logic)      │
+│  - Star rating radio buttons    │                                       │  4. Price Range in ₹ (inclusive)  │
+│  - Sort By dropdown             │                                       │  5. Star Rating (>= min_rating)   │
+└─────────────────────────────────┘                                       │  6. Combine with AND logic        │
+                                                                          │  7. Sort (Price asc / Rating desc)│
+                                                                          └───────────────────────────────────┘
 ```
 
-1. **Category Filtering**: Multiple selected categories use **OR** logic (product matches if its category is in the selected set).
-2. **Price Range Filtering**: Products are included if `min_price <= product.price <= max_price` (inclusive boundaries).
-3. **Rating Filtering**: Products are included if `product.rating >= min_rating`.
-4. **Combined Logic**: Category, Price, and Rating criteria are combined using strict **AND** logic.
-5. **Execution Order**: Filtering is executed **first**, followed immediately by sorting on the remaining matches.
-6. **Dataset Immutability**: The original catalog dataset is never modified in memory.
+1. **Category Filtering**: Multiple selected categories use **OR logic**.
+2. **Colour Filtering**: Multiple selected colours use **OR logic**.
+3. **Price Range Filtering**: Products are included if `min_price <= product.price <= max_price` (inclusive boundaries in INR).
+4. **Rating Filtering**: Products are included if `product.rating >= min_rating`.
+5. **Combined Logic**: Category, Colour, Price, and Rating criteria are combined using strict **AND logic**.
+6. **Execution Order**: Filtering is executed **first**, followed immediately by sorting on the remaining matches.
+7. **Dataset Immutability**: The original catalog dataset of 159 products in [`backend/app/data/products.json`](file:///c:/Users/ashwi/OneDrive/Desktop/VibeCoding/backend/app/data/products.json) is never modified in memory.
+8. **Empty State**: When no products match criteria, the exact message is displayed:
+   `"No items match your criteria."`
+   accompanied by a visible **Reset Filters** button.
 
 ---
 
@@ -74,32 +97,37 @@ VibeCoding/
 ├── backend/
 │   ├── app/
 │   │   ├── __init__.py
-│   │   ├── main.py              # FastAPI endpoints, CORS, query validation
+│   │   ├── main.py              # FastAPI endpoints (products, auth, cart, meta)
 │   │   ├── models.py            # Pydantic data schemas
 │   │   ├── services.py          # Filtering, sorting & catalog service
 │   │   └── data/
-│   │       └── products.json    # Realistic 24-product dataset
+│   │       └── products.json    # 159-product dataset in INR
 │   ├── requirements.txt         # Python dependencies
-│   └── test_backend.py          # Unit test suite (14 test cases)
+│   └── test_backend.py          # 13 unit test cases
 ├── frontend/
 │   ├── public/
 │   │   └── favicon.svg          # CareerFit SVG favicon
 │   ├── src/
 │   │   ├── components/
-│   │   │   ├── Header.tsx           # Brand header with status indicator & mobile toggle
-│   │   │   ├── FilterSidebar.tsx    # Sticky sidebar & mobile filter drawer
-│   │   │   ├── DualRangeSlider.tsx  # Dual-handle range slider with independent thumbs
+│   │   │   ├── Header.tsx           # Brand header with cart badge, auth & mobile toggle
+│   │   │   ├── FilterSidebar.tsx    # Sticky sidebar with colour swatches & price presets
+│   │   │   ├── DualRangeSlider.tsx  # Dual-handle range slider with ₹ formatting
 │   │   │   ├── ProductGrid.tsx      # Responsive product grid
-│   │   │   ├── ProductCard.tsx      # Product card with image, category, price & rating
+│   │   │   ├── ProductCard.tsx      # Product card with Quick Add & Detail View triggers
+│   │   │   ├── ProductDetailModal.tsx # Amazon/Flipkart style detail modal
+│   │   │   ├── CartDrawer.tsx       # Shopping cart slide-out with checkout
+│   │   │   ├── AuthModal.tsx        # Sign In & Sign Up dialog
 │   │   │   ├── SortDropdown.tsx     # Sort By dropdown
 │   │   │   ├── LoadingSkeleton.tsx  # Pulse skeleton loading placeholder
 │   │   │   └── EmptyState.tsx       # "No items match your criteria." + Reset button
 │   │   ├── hooks/
 │   │   │   └── useDebounce.ts       # Debounce hook for slider request throttling
 │   │   ├── services/
-│   │   │   └── api.ts               # Backend API communication client
+│   │   │   └── api.ts               # Backend API client with fetch
 │   │   ├── types/
-│   │   │   └── product.ts           # TypeScript interfaces
+│   │   │   ├── product.ts           # Product & filter types
+│   │   │   ├── cart.ts              # Cart types
+│   │   │   └── auth.ts              # User & auth types
 │   │   ├── App.tsx                  # Root state management & layout
 │   │   ├── main.tsx                 # React entry point
 │   │   └── index.css                # Tailwind directives & custom dual slider styles
@@ -109,7 +137,8 @@ VibeCoding/
 │   ├── vite.config.ts
 │   └── tailwind.config.js
 ├── scripts/
-│   └── test_e2e.py              # Automated 54-assertion E2E test runner
+│   ├── generate_dataset.py      # Dataset generation script
+│   └── test_e2e.py              # Automated 74-assertion E2E test runner
 ├── .gitignore
 └── README.md
 ```
@@ -176,61 +205,21 @@ The frontend application will be live at: `http://127.0.0.1:5173`
 
 ---
 
-## 📡 API Reference
-
-### 1. `GET /api/health`
-Health check endpoint.
-```json
-{
-  "status": "ok",
-  "service": "ecommerce-catalog-api"
-}
-```
-
-### 2. `GET /api/meta`
-Returns category list and global price extremes.
-```json
-{
-  "categories": ["Apparel", "Electronics", "Footwear"],
-  "min_price": 14.99,
-  "max_price": 799.00,
-  "total_products": 24
-}
-```
-
-### 3. `GET /api/products`
-Retrieves filtered and sorted products.
-
-| Parameter | Type | Required | Description |
-| :--- | :--- | :--- | :--- |
-| `category` | `string[]` | No | One or more categories (multi-value query param) |
-| `min_price`| `float` | No | Minimum price boundary (inclusive) |
-| `max_price`| `float` | No | Maximum price boundary (inclusive) |
-| `min_rating`| `float` | No | Minimum star rating boundary (1 to 5) |
-| `sort_by` | `string` | No | `default`, `price_asc`, or `rating_desc` |
-
-**Example Request**:
-```http
-GET /api/products?category=Electronics&category=Footwear&min_price=50&max_price=250&min_rating=4.5&sort_by=price_asc
-```
-
----
-
 ## 🧪 Testing and Verification
 
-### Run Backend Unit Tests (14 Tests)
-Tests dataset loading, filtering rules (OR/AND logic), boundary inclusion, sorting behavior, and dataset immutability:
+### Run Backend Unit Tests (13 Tests)
+Tests dataset loading, category OR logic, color OR logic, price boundary inclusion in INR, sorting behavior, and dataset immutability:
 ```bash
 python backend/test_backend.py
 ```
-*Result*: `14 passed in 0.004s`
+*Result*: `13 passed in 0.031s`
 
-### Run End-to-End Integration Tests (54 Assertions)
-Validates the live API endpoints, sorting logic, empty state handling, and error response validation:
+### Run End-to-End Integration Tests (74 Assertions)
+Validates all live API endpoints, 50+ items per category, color filters, INR price boundaries, sorting, empty states, and input validation:
 ```bash
 python scripts/test_e2e.py
 ```
-*Result*: `54/54 PASSED (100% SUCCESS)`
+*Result*: `74/74 PASSED (100% SUCCESS)`
 
 ### Production Build Verification
 To verify the production build of the frontend application:

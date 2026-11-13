@@ -13,7 +13,7 @@ export const DualRangeSlider: React.FC<DualRangeSliderProps> = ({
   max,
   value,
   onChange,
-  step = 5,
+  step = 100,
 }) => {
   const [minVal, setMinVal] = useState<number>(value[0]);
   const [maxVal, setMaxVal] = useState<number>(value[1]);
@@ -21,7 +21,7 @@ export const DualRangeSlider: React.FC<DualRangeSliderProps> = ({
   const maxValRef = useRef(maxVal);
   const rangeRef = useRef<HTMLDivElement>(null);
 
-  // Sync internal state when external props change (e.g. on Reset Filters)
+  // Sync internal state when external props change
   useEffect(() => {
     setMinVal(value[0]);
     setMaxVal(value[1]);
@@ -38,14 +38,14 @@ export const DualRangeSlider: React.FC<DualRangeSliderProps> = ({
     [min, max]
   );
 
-  // Adjust the active track width between the two thumbs
+  // Adjust active track position and width
   useEffect(() => {
     const minPercent = getPercent(minVal);
     const maxPercent = getPercent(maxValRef.current);
 
     if (rangeRef.current) {
       rangeRef.current.style.left = `${minPercent}%`;
-      rangeRef.current.style.width = `${maxPercent - minPercent}%`;
+      rangeRef.current.style.width = `${Math.max(0, maxPercent - minPercent)}%`;
     }
   }, [minVal, getPercent]);
 
@@ -54,7 +54,7 @@ export const DualRangeSlider: React.FC<DualRangeSliderProps> = ({
     const maxPercent = getPercent(maxVal);
 
     if (rangeRef.current) {
-      rangeRef.current.style.width = `${maxPercent - minPercent}%`;
+      rangeRef.current.style.width = `${Math.max(0, maxPercent - minPercent)}%`;
     }
   }, [maxVal, getPercent]);
 
@@ -77,16 +77,16 @@ export const DualRangeSlider: React.FC<DualRangeSliderProps> = ({
       {/* Values Display */}
       <div className="flex items-center justify-between text-sm">
         <div className="flex flex-col">
-          <span className="text-xs text-gray-400 font-medium">Min Price</span>
-          <span className="px-2.5 py-1 bg-[#141414] border border-[#2A2A2A] rounded-md font-semibold text-[#007BA7] text-sm tabular-nums">
-            ${minVal.toFixed(0)}
+          <span className="text-[11px] text-gray-400 font-medium">Min Price</span>
+          <span className="px-2.5 py-1 bg-[#141414] border border-[#2A2A2A] rounded-md font-bold text-[#007BA7] text-xs sm:text-sm tabular-nums">
+            ₹{Math.round(minVal).toLocaleString('en-IN')}
           </span>
         </div>
         <div className="h-[1px] w-4 bg-[#2A2A2A] self-end mb-3" />
         <div className="flex flex-col items-end">
-          <span className="text-xs text-gray-400 font-medium">Max Price</span>
-          <span className="px-2.5 py-1 bg-[#141414] border border-[#2A2A2A] rounded-md font-semibold text-[#FF2E63] text-sm tabular-nums">
-            ${maxVal.toFixed(0)}
+          <span className="text-[11px] text-gray-400 font-medium">Max Price</span>
+          <span className="px-2.5 py-1 bg-[#141414] border border-[#2A2A2A] rounded-md font-bold text-[#FF2E63] text-xs sm:text-sm tabular-nums">
+            ₹{Math.round(maxVal).toLocaleString('en-IN')}
           </span>
         </div>
       </div>
@@ -129,8 +129,8 @@ export const DualRangeSlider: React.FC<DualRangeSliderProps> = ({
 
       {/* Range limits hint */}
       <div className="flex justify-between text-[11px] text-gray-500 font-mono">
-        <span>${min.toFixed(0)}</span>
-        <span>${max.toFixed(0)}</span>
+        <span>₹{Math.round(min).toLocaleString('en-IN')}</span>
+        <span>₹{Math.round(max).toLocaleString('en-IN')}</span>
       </div>
     </div>
   );

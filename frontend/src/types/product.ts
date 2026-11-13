@@ -5,6 +5,7 @@ export interface Product {
   price: number;
   rating: number;
   rating_count: number;
+  color: string;
   image: string;
   description: string;
 }
@@ -13,6 +14,7 @@ export type SortOption = 'default' | 'price_asc' | 'rating_desc';
 
 export interface FilterState {
   categories: string[];
+  colors: string[];
   priceRange: [number, number];
   minRating: number | null;
   sortBy: SortOption;
@@ -24,6 +26,7 @@ export interface ProductsApiResponse {
   all_total: number;
   applied_filters: {
     categories: string[];
+    colors: string[];
     min_price: number | null;
     max_price: number | null;
     min_rating: number | null;
@@ -33,6 +36,7 @@ export interface ProductsApiResponse {
 
 export interface CatalogMetadata {
   categories: string[];
+  colors: string[];
   min_price: number;
   max_price: number;
   total_products: number;

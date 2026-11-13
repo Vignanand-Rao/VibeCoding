@@ -9,9 +9,9 @@ def get_data_filepath() -> str:
     base_dir = os.path.dirname(os.path.abspath(__file__))
     return os.path.join(base_dir, "data", "products.json")
 
-def load_products() -> List[Product]:
+def load_products(force_reload: bool = False) -> List[Product]:
     global _PRODUCTS_CACHE
-    if not _PRODUCTS_CACHE:
+    if not _PRODUCTS_CACHE or force_reload:
         filepath = get_data_filepath()
         with open(filepath, "r", encoding="utf-8") as f:
             raw_data = json.load(f)
@@ -24,17 +24,20 @@ def get_catalog_metadata():
     if not products:
         return {
             "categories": [],
+            "colors": [],
             "min_price": 0.0,
             "max_price": 0.0,
             "total_products": 0
         }
     
     categories = sorted(list({p.category for p in products}))
+    colors = sorted(list({p.color for p in products if p.color}))
     min_price = min(p.price for p in products)
     max_price = max(p.price for p in products)
     
     return {
         "categories": categories,
+        "colors": colors,
         "min_price": min_price,
         "max_price": max_price,
         "total_products": len(products)
@@ -42,6 +45,7 @@ def get_catalog_metadata():
 
 def filter_and_sort_products(
     categories: Optional[List[str]] = None,
+    colors: Optional[List[str]] = None,
     min_price: Optional[float] = None,
     max_price: Optional[float] = None,
     min_rating: Optional[float] = None,
@@ -50,10 +54,11 @@ def filter_and_sort_products(
     """
     Filters and sorts the product catalog.
     Criteria:
-      - Category: OR logic within multiple categories
-      - Price: inclusive boundaries min_price <= price <= max_price
+      - Category: OR logic within multiple selected categories
+      - Color: OR logic within multiple selected colors
+      - Price: inclusive boundaries min_price <= price <= max_price (in INR)
       - Rating: rating >= min_rating
-      - AND logic between category, price, and rating
+      - AND logic between category, color, price, and rating
       - If no filters, returns complete original inventory.
       - Never modifies the original dataset.
       - Filtering happens first, followed by sorting.
@@ -66,35 +71,36 @@ def filter_and_sort_products(
     
     # 1. Category Filter (OR logic across selected categories)
     if categories:
-        # Clean and lower-case for robust matching
         category_set = {c.strip().lower() for c in categories if c and c.strip()}
         if category_set:
             filtered = [p for p in filtered if p.category.lower() in category_set]
+
+    # 2. Color Filter (OR logic across selected colors)
+    if colors:
+        color_set = {c.strip().lower() for c in colors if c and c.strip()}
+        if color_set:
+            filtered = [p for p in filtered if p.color.lower() in color_set]
             
-    # 2. Price Filter (inclusive min and max boundaries)
+    # 3. Price Filter (inclusive min and max boundaries in INR)
     if min_price is not None:
         filtered = [p for p in filtered if p.price >= float(min_price)]
     if max_price is not None:
         filtered = [p for p in filtered if p.price <= float(max_price)]
         
-    # 3. Star Rating Filter (minimum rating boundary)
+    # 4. Star Rating Filter (minimum rating boundary)
     if min_rating is not None and float(min_rating) > 0:
         filtered = [p for p in filtered if p.rating >= float(min_rating)]
         
-    # 4. Sorting logic (happens strictly after filtering)
+    # 5. Sorting logic (happens strictly after filtering)
     sort_normalized = (sort_by or "default").strip().lower()
     
     if sort_normalized in ("price_asc", "price-low-to-high", "price: low to high", "price_low_to_high"):
-        # Stable sort ascending by price
         filtered = sorted(filtered, key=lambda p: p.price)
     elif sort_normalized in ("rating_desc", "top-rated-first", "top rated first", "top_rated_first", "rating"):
-        # Stable sort descending by rating
         filtered = sorted(filtered, key=lambda p: p.rating, reverse=True)
     elif sort_normalized in ("default", "default order", "default_order"):
-        # Preserve original relative order
         pass
     else:
-        # Default fallback
         pass
         
     return filtered, len(filtered), all_total

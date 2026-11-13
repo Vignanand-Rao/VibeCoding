@@ -1,0 +1,242 @@
+[
+  {
+    "id": 1,
+    "name": "Sony WH-1000XM5 Wireless Headphones",
+    "category": "Electronics",
+    "price": 399.99,
+    "rating": 4.8,
+    "rating_count": 1420,
+    "image": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=600&q=80",
+    "description": "Industry-leading noise canceling with two processors and 8 microphones for superior call and audio quality."
+  },
+  {
+    "id": 2,
+    "name": "Apple Watch Ultra 2 Titanium",
+    "category": "Electronics",
+    "price": 799.00,
+    "rating": 4.9,
+    "rating_count": 890,
+    "image": "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=600&q=80",
+    "description": "Rugged and capable smartwatch built for endurance athletes, outdoor adventurers, and water sports."
+  },
+  {
+    "id": 3,
+    "name": "Logitech MX Master 3S Mouse",
+    "category": "Electronics",
+    "price": 99.99,
+    "rating": 4.7,
+    "rating_count": 2150,
+    "image": "https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7?auto=format&fit=crop&w=600&q=80",
+    "description": "Quiet Clicks and 8K DPI any-surface tracking for ultimate precision and ergonomic comfort."
+  },
+  {
+    "id": 4,
+    "name": "Bose SoundLink Flex Bluetooth Speaker",
+    "category": "Electronics",
+    "price": 149.00,
+    "rating": 4.6,
+    "rating_count": 670,
+    "image": "https://images.unsplash.com/photo-1545454675-3531b543be5d?auto=format&fit=crop&w=600&q=80",
+    "description": "Waterproof portable speaker with clear, deep sound and PositionIQ technology."
+  },
+  {
+    "id": 5,
+    "name": "Keychron K2 Mechanical Keyboard",
+    "category": "Electronics",
+    "price": 79.99,
+    "rating": 4.4,
+    "rating_count": 520,
+    "image": "https://images.unsplash.com/photo-1587829741301-dc798b83add3?auto=format&fit=crop&w=600&q=80",
+    "description": "Wireless compact 75% layout mechanical keyboard with Gateron G Pro Brown switches."
+  },
+  {
+    "id": 6,
+    "name": "Anker 737 Power Bank 24000mAh",
+    "category": "Electronics",
+    "price": 139.99,
+    "rating": 4.5,
+    "rating_count": 1100,
+    "image": "https://images.unsplash.com/photo-1609592807664-849c71c662ce?auto=format&fit=crop&w=600&q=80",
+    "description": "Ultra-powerful two-way fast charging bank with smart digital display and 140W max output."
+  },
+  {
+    "id": 7,
+    "name": "Basic USB-C Charging Cable (3-Pack)",
+    "category": "Electronics",
+    "price": 14.99,
+    "rating": 3.4,
+    "rating_count": 310,
+    "image": "https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=600&q=80",
+    "description": "Standard nylon braided fast charging and data sync cords."
+  },
+  {
+    "id": 8,
+    "name": "Budget Wired Earbuds with Mic",
+    "category": "Electronics",
+    "price": 19.99,
+    "rating": 2.7,
+    "rating_count": 180,
+    "image": "https://images.unsplash.com/photo-1484704849700-f032a568e944?auto=format&fit=crop&w=600&q=80",
+    "description": "Simple 3.5mm wired in-ear headphones with inline microphone for everyday calls."
+  },
+  {
+    "id": 9,
+    "name": "Patagonia Nano Puff Insulated Jacket",
+    "category": "Apparel",
+    "price": 229.00,
+    "rating": 4.8,
+    "rating_count": 840,
+    "image": "https://images.unsplash.com/photo-1544441893-675973e31985?auto=format&fit=crop&w=600&q=80",
+    "description": "Warm, windproof, water-resistant lightweight jacket insulated with 60-g PrimaLoft Gold Eco."
+  },
+  {
+    "id": 10,
+    "name": "Nike Club Fleece Pullover Hoodie",
+    "category": "Apparel",
+    "price": 65.00,
+    "rating": 4.6,
+    "rating_count": 1920,
+    "image": "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&w=600&q=80",
+    "description": "Classic comfort brushed-back fleece hoodie with adjustable drawstring hood and kangaroo pocket."
+  },
+  {
+    "id": 11,
+    "name": "Levi's 511 Slim Fit Jeans",
+    "category": "Apparel",
+    "price": 79.50,
+    "rating": 4.4,
+    "rating_count": 3400,
+    "image": "https://images.unsplash.com/photo-1542272604-780c96856453?auto=format&fit=crop&w=600&q=80",
+    "description": "A modern slim with room to move, cut close through the thigh with a slim leg opening."
+  },
+  {
+    "id": 12,
+    "name": "Lululemon Metal Vent Tech Tee",
+    "category": "Apparel",
+    "price": 78.00,
+    "rating": 4.7,
+    "rating_count": 780,
+    "image": "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=600&q=80",
+    "description": "Seamless construction engineered with anti-stink Silverescent technology for intense training."
+  },
+  {
+    "id": 13,
+    "name": "The North Face Apex Bionic Softshell",
+    "category": "Apparel",
+    "price": 160.00,
+    "rating": 4.5,
+    "rating_count": 630,
+    "image": "https://images.unsplash.com/photo-1578632767115-351597cf2477?auto=format&fit=crop&w=600&q=80",
+    "description": "100% windproof fabric jacket offering breathable comfort during aerobic outdoor activities."
+  },
+  {
+    "id": 14,
+    "name": "Champion Everyday Cotton T-Shirt",
+    "category": "Apparel",
+    "price": 25.00,
+    "rating": 3.9,
+    "rating_count": 510,
+    "image": "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?auto=format&fit=crop&w=600&q=80",
+    "description": "Standard fit ring-spun cotton graphic t-shirt for laid-back weekend lounging."
+  },
+  {
+    "id": 15,
+    "name": "Basic Crew Neck Sweatshirt",
+    "category": "Apparel",
+    "price": 32.00,
+    "rating": 3.1,
+    "rating_count": 145,
+    "image": "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&w=600&q=80",
+    "description": "Midweight fleece pullover sweatshirt with ribbed collar and cuffs."
+  },
+  {
+    "id": 16,
+    "name": "Generic Polyester Windbreaker",
+    "category": "Apparel",
+    "price": 28.50,
+    "rating": 2.2,
+    "rating_count": 92,
+    "image": "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?auto=format&fit=crop&w=600&q=80",
+    "description": "Lightweight water-repellent zip-up wind jacket with elastic hood and cuffs."
+  },
+  {
+    "id": 17,
+    "name": "Nike Air Jordan 1 Retro High OG",
+    "category": "Footwear",
+    "price": 180.00,
+    "rating": 4.9,
+    "rating_count": 4200,
+    "image": "https://images.unsplash.com/photo-1584735935682-2f2b69dff9d2?auto=format&fit=crop&w=600&q=80",
+    "description": "Iconic high-top basketball sneaker crafted with genuine full-grain leather and Air cushioning."
+  },
+  {
+    "id": 18,
+    "name": "Adidas Ultraboost Light Running Shoes",
+    "category": "Footwear",
+    "price": 190.00,
+    "rating": 4.7,
+    "rating_count": 1850,
+    "image": "https://images.unsplash.com/photo-1587563871167-1ee9c731aefb?auto=format&fit=crop&w=600&q=80",
+    "description": "Experience epic energy return with our lightest BOOST cushioning ever and PRIMEKNIT+ textile."
+  },
+  {
+    "id": 19,
+    "name": "Timberland 6-Inch Premium Waterproof Boot",
+    "category": "Footwear",
+    "price": 210.00,
+    "rating": 4.6,
+    "rating_count": 2900,
+    "image": "https://images.unsplash.com/photo-1520639888713-7851133b1ed0?auto=format&fit=crop&w=600&q=80",
+    "description": "Original waterproof boot featuring premium leather, sealed seams, and rugged lug soles."
+  },
+  {
+    "id": 20,
+    "name": "New Balance 990v6 Made in USA",
+    "category": "Footwear",
+    "price": 200.00,
+    "rating": 4.8,
+    "rating_count": 910,
+    "image": "https://images.unsplash.com/photo-1539185441755-769473a23570?auto=format&fit=crop&w=600&q=80",
+    "description": "Unrivaled blend of quality materials, ENCAP midsole cushioning, and FuelCell foam."
+  },
+  {
+    "id": 21,
+    "name": "Vans Old Skool Classic Skate Shoes",
+    "category": "Footwear",
+    "price": 70.00,
+    "rating": 4.5,
+    "rating_count": 5100,
+    "image": "https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?auto=format&fit=crop&w=600&q=80",
+    "description": "Timeless low-top skate shoe featuring durable suede and canvas uppers with signature sidestripe."
+  },
+  {
+    "id": 22,
+    "name": "Converse Chuck Taylor All Star Low",
+    "category": "Footwear",
+    "price": 60.00,
+    "rating": 4.3,
+    "rating_count": 6200,
+    "image": "https://images.unsplash.com/photo-1607522370275-f14206abe5d3?auto=format&fit=crop&w=600&q=80",
+    "description": "The definitive canvas sneaker recognized globally with vulcanized rubber sole."
+  },
+  {
+    "id": 23,
+    "name": "Casual Slip-On Canvas Loafers",
+    "category": "Footwear",
+    "price": 34.99,
+    "rating": 3.3,
+    "rating_count": 210,
+    "image": "https://images.unsplash.com/photo-1560769629-975ec94e6a86?auto=format&fit=crop&w=600&q=80",
+    "description": "Breathable slip-on walking shoes with elastic side accents and flexible traction sole."
+  },
+  {
+    "id": 24,
+    "name": "Budget Foam Shower Slides",
+    "category": "Footwear",
+    "price": 16.99,
+    "rating": 1.8,
+    "rating_count": 85,
+    "image": "https://images.unsplash.com/photo-1608256246200-53e635b5b65f?auto=format&fit=crop&w=600&q=80",
+    "description": "Quick-drying EVA slide sandals designed for gym locker rooms, beach and poolside."
+  }
+]
